@@ -272,7 +272,7 @@ namespace DirectPlayS
                     }
                     try
                     {
-                        equ[token[1]] = Expr(v, equ_sorted);
+                        equ[token[1]] = Expr(v, equ, equ_sorted);
                         equ_sorted = SortedEQU(equ);
                     }
                     catch (SyntaxErrorException e)
@@ -352,7 +352,7 @@ namespace DirectPlayS
                     {
                         try
                         {
-                            int v = Expr(token[n], equ_sorted);
+                            int v = Expr(token[n], equ, equ_sorted);
                             current.list.Add((byte)v);
                         }
                         catch (SyntaxErrorException e)
@@ -388,7 +388,7 @@ namespace DirectPlayS
                     {
                         try
                         {
-                            uint v = (uint)Expr(token[n], equ_sorted);
+                            uint v = (uint)Expr(token[n], equ, equ_sorted);
 
                             {//それ以外の相対値 
                                 current.useLabelRegist.Add((uint)current.list.Count);
@@ -490,12 +490,17 @@ namespace DirectPlayS
             }
             return -1;
         }
-        static int Expr(string expr_value, List<KeyValuePair<string, int>> equ)
+        static int Expr(string expr_value, Dictionary<string, int> equ, List<KeyValuePair<string, int>> equ_sorted)
         {
-            string expr = expr_value;
+            int ret = 0;
+            if (equ.TryGetValue(expr_value, out ret))
+            {
+                return ret;
+            }
 
+            string expr = expr_value;
             //変数を実際の値に置換します.
-            foreach (var pair in equ)
+            foreach (var pair in equ_sorted)
             {
                 expr = expr.Replace(pair.Key, pair.Value.ToString());
             }
@@ -510,7 +515,7 @@ namespace DirectPlayS
             object result = dt.Compute(expr, "");
             string str = result.ToString();
 
-            int ret = 0;
+            ret = 0;
             if (!int.TryParse(str, out ret))
             {
                 ret = (int)U.atoi(str);
