@@ -1,0 +1,4 @@
+*.gba
+DirectPlayS/bin/
+DirectPlayS/obj
+.vs/
