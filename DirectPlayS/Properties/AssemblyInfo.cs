@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
 [assembly: AssemblyTitle("DirectPlayS")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Double-click to play S File directly")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Toshiba")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DirectPlayS")]
-[assembly: AssemblyCopyright("Copyright © Toshiba 2021")]
+[assembly: AssemblyCopyright("GPLv3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
