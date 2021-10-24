@@ -214,6 +214,7 @@ namespace DirectPlayS
                 {
                     return r;
                 }
+                return SearchOverNIMAP("FE8J", searchStartAddr);
             }
 
             if (Program.ROM.Version == "BE8E")
@@ -234,6 +235,7 @@ namespace DirectPlayS
                 {
                     return r;
                 }
+                return SearchOverNIMAP("FE8U", searchStartAddr);
             }
 
             if (Program.ROM.Version == "AE7J")
@@ -247,6 +249,8 @@ namespace DirectPlayS
                 {
                     return r;
                 }
+
+                return SearchOverNIMAP("FE7J", searchStartAddr);
             }
 
             if (Program.ROM.Version == "AE7E")
@@ -260,6 +264,8 @@ namespace DirectPlayS
                 {
                     return r;
                 }
+
+                return SearchOverNIMAP("FE7U", searchStartAddr);
             }
 
             if (Program.ROM.Version == "AFEJ")
@@ -273,8 +279,65 @@ namespace DirectPlayS
                 {
                     return r;
                 }
+
+                return SearchOverNIMAP("FE6", searchStartAddr);
             }
 
+            return U.NOT_FOUND;
+        }
+
+        static uint SearchOverNIMAP(string needVersion, uint searchStartAddr)
+        {
+            string song_instrumentset_ALL = Path.Combine(Program.BaseDirectory, "song_instrumentset_ALL.txt");
+            if (!System.IO.File.Exists(song_instrumentset_ALL))
+            {
+                return U.NOT_FOUND;
+            }
+
+            string[] lines;
+            try
+            {
+                lines = File.ReadAllLines(song_instrumentset_ALL);
+            }
+            catch (Exception)
+            {
+                return U.NOT_FOUND;
+            }
+
+            foreach (string line in lines)
+            {
+                string[] sp = line.Split(new char[] { '\t' });
+                if (sp.Length < 3)
+                {
+                    continue;
+                }
+                if (sp[0].IndexOf("//") >= 0)
+                {//コメント
+                    continue;
+                }
+                //2番目のカラムがバージョン
+                if (needVersion != sp[1])
+                {
+                    if (sp[1] != "ALL")
+                    {
+                        continue;
+                    }
+                }
+
+                string[] hexStrings = sp[2].Split(' ');
+                byte[] need = new byte[hexStrings.Length];
+                for (int n = 0; n < hexStrings.Length; n++)
+                {
+                    need[n] = (byte)U.atoh(hexStrings[n]);
+                }
+
+                //Grepして調べる 結構重い.
+                uint v = U.Grep(Program.ROM.Data, need, searchStartAddr, 0, 4);
+                if (v != U.NOT_FOUND)
+                {
+                    return v;
+                }
+            }
             return U.NOT_FOUND;
         }
 
