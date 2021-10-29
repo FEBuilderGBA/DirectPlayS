@@ -16,9 +16,13 @@ namespace DirectPlayS
         {
             InitializeComponent();
 
+            InitLocked = true;
             RomFilename.Text = Program.Config.at("RomFilename");
             TextEditor.Text = Program.Config.at("TextEditor");
+            MusicPlayer.Text = Program.Config.at("MusicPlayer");
+            InitLocked = false;
         }
+        bool InitLocked;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -33,6 +37,11 @@ namespace DirectPlayS
             {
                 TextEditor.Text = U.FindAssociatedExecutable(".txt");
             }
+            if (MusicPlayer.Text == "")
+            {
+                MusicPlayer.Text = GetDefaultPlayer();
+            }
+
 
             U.AddCancelButton(this);
             U.AllowDropFilename(this, new string[]{".S"}, (string filename) =>
@@ -356,13 +365,29 @@ namespace DirectPlayS
         }
 
         string PlayerEXE = "VGMusicStudio\\VG Music Studio.exe";
+        string GetDefaultPlayer()
+        {
+            return Path.Combine(Program.BaseDirectory, PlayerEXE);
+        }
+
         Process PlayerProcess = null;
         bool ExecutePlayer()
+        {
+            string player = this.MusicPlayer.Text;
+            if (player.IndexOf("VG Music Studio") >= 0)
+            {
+                return ExecutePlayerVGMusicPlayer(player);
+            }
+            else
+            {
+                return ExecutePlayerSappy(player);
+            }
+        }
+        bool ExecutePlayerVGMusicPlayer(string player)
         {
             try
             {
                 string args2 = String.Format("-mp2k -songid {0} -filename", g_UseSongID);
-                string player = Path.Combine(Program.BaseDirectory, PlayerEXE);
                 this.PlayerProcess = MainFormUtil.RunAs(player, args2);
             }
             catch (Exception e)
@@ -373,11 +398,32 @@ namespace DirectPlayS
 
             return this.PlayerProcess != null;
         }
+        bool ExecutePlayerSappy(string player)
+        {
+            try
+            {
+                this.PlayerProcess = MainFormUtil.RunAs(player);
+            }
+            catch (Exception e)
+            {
+                R.ShowStopError("Sappyプロセスを実行できません。\r\n{0}", e.ToString());
+                return false;
+            }
+
+            if (this.PlayerProcess == null)
+            {
+                return false;
+            }
+
+            SappyPlaying sappy = new SappyPlaying();
+            sappy.StartPlay(this.PlayerProcess, g_UseSongID);
+            return true;
+        }
         void KillProcessIfRunning()
         {
             if (PlayerProcess == null)
             {
-                return ;
+                return;
             }
             if (PlayerProcess.HasExited)
             {
@@ -456,8 +502,6 @@ namespace DirectPlayS
                 return;
             }
             RomFilename.Text = path;
-            Program.Config["RomFilename"] = path;
-            Program.Config.Save();
         }
 
         private void SelectTextEditor_Click(object sender, EventArgs e)
@@ -468,8 +512,6 @@ namespace DirectPlayS
                 return;
             }
             TextEditor.Text = path;
-            Program.Config["TextEditor"] = path;
-            Program.Config.Save();
         }
 
         private void RomFilename_DoubleClick(object sender, EventArgs e)
@@ -516,6 +558,52 @@ namespace DirectPlayS
             {
                 this.Close();
             }
+        }
+
+        private void MusicPlayer_DoubleClick(object sender, EventArgs e)
+        {
+            SelectMusicPlayer.PerformClick();
+        }
+
+        private void SelectMusicPlayer_Click(object sender, EventArgs e)
+        {
+            string path = EXESearch("VG Music Studio,Sappy|VG Music Studio.exe;sappy.exe|");
+            if (path == "")
+            {
+                return;
+            }
+            MusicPlayer.Text = path;
+        }
+
+
+        private void RomFilename_TextChanged(object sender, EventArgs e)
+        {
+            if (InitLocked)
+            {
+                return;
+            }
+            Program.Config["RomFilename"] = RomFilename.Text;
+            Program.Config.Save();
+        }
+
+        private void TextEditor_TextChanged(object sender, EventArgs e)
+        {
+            if (InitLocked)
+            {
+                return;
+            }
+            Program.Config["TextEditor"] = TextEditor.Text;
+            Program.Config.Save();
+        }
+
+        private void MusicPlayer_TextChanged(object sender, EventArgs e)
+        {
+            if (InitLocked)
+            {
+                return;
+            }
+            Program.Config["MusicPlayer"] = MusicPlayer.Text;
+            Program.Config.Save();
         }
     }
 }

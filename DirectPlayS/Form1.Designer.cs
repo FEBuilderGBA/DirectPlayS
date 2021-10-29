@@ -37,6 +37,9 @@
             this.NowPlaying = new System.Windows.Forms.Label();
             this.SelectRomFIlename = new System.Windows.Forms.Button();
             this.RomFilename = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.SelectMusicPlayer = new System.Windows.Forms.Button();
+            this.MusicPlayer = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // BunnerLabel
@@ -55,7 +58,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 269);
+            this.label2.Location = new System.Drawing.Point(15, 260);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(393, 18);
             this.label2.TabIndex = 1;
@@ -64,7 +67,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 195);
+            this.label3.Location = new System.Drawing.Point(15, 195);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(136, 18);
             this.label3.TabIndex = 2;
@@ -72,15 +75,16 @@
             // 
             // TextEditor
             // 
-            this.TextEditor.Location = new System.Drawing.Point(12, 293);
+            this.TextEditor.Location = new System.Drawing.Point(15, 284);
             this.TextEditor.Name = "TextEditor";
             this.TextEditor.Size = new System.Drawing.Size(482, 25);
             this.TextEditor.TabIndex = 5;
+            this.TextEditor.TextChanged += new System.EventHandler(this.TextEditor_TextChanged);
             this.TextEditor.DoubleClick += new System.EventHandler(this.TextEditor_DoubleClick);
             // 
             // SelectTextEditor
             // 
-            this.SelectTextEditor.Location = new System.Drawing.Point(513, 293);
+            this.SelectTextEditor.Location = new System.Drawing.Point(513, 284);
             this.SelectTextEditor.Name = "SelectTextEditor";
             this.SelectTextEditor.Size = new System.Drawing.Size(36, 23);
             this.SelectTextEditor.TabIndex = 6;
@@ -109,17 +113,49 @@
             // 
             // RomFilename
             // 
-            this.RomFilename.Location = new System.Drawing.Point(12, 216);
+            this.RomFilename.Location = new System.Drawing.Point(15, 216);
             this.RomFilename.Name = "RomFilename";
             this.RomFilename.Size = new System.Drawing.Size(482, 25);
             this.RomFilename.TabIndex = 8;
+            this.RomFilename.TextChanged += new System.EventHandler(this.RomFilename_TextChanged);
             this.RomFilename.DoubleClick += new System.EventHandler(this.RomFilename_DoubleClick);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(15, 328);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(161, 18);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Select Music Player:";
+            // 
+            // SelectMusicPlayer
+            // 
+            this.SelectMusicPlayer.Location = new System.Drawing.Point(513, 352);
+            this.SelectMusicPlayer.Name = "SelectMusicPlayer";
+            this.SelectMusicPlayer.Size = new System.Drawing.Size(36, 23);
+            this.SelectMusicPlayer.TabIndex = 13;
+            this.SelectMusicPlayer.Text = "...";
+            this.SelectMusicPlayer.UseVisualStyleBackColor = true;
+            this.SelectMusicPlayer.Click += new System.EventHandler(this.SelectMusicPlayer_Click);
+            // 
+            // MusicPlayer
+            // 
+            this.MusicPlayer.Location = new System.Drawing.Point(15, 352);
+            this.MusicPlayer.Name = "MusicPlayer";
+            this.MusicPlayer.Size = new System.Drawing.Size(482, 25);
+            this.MusicPlayer.TabIndex = 12;
+            this.MusicPlayer.TextChanged += new System.EventHandler(this.MusicPlayer_TextChanged);
+            this.MusicPlayer.DoubleClick += new System.EventHandler(this.MusicPlayer_DoubleClick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(589, 408);
+            this.ClientSize = new System.Drawing.Size(589, 407);
+            this.Controls.Add(this.SelectMusicPlayer);
+            this.Controls.Add(this.MusicPlayer);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.SelectRomFIlename);
             this.Controls.Add(this.RomFilename);
             this.Controls.Add(this.NowPlaying);
@@ -149,6 +185,9 @@
         private System.Windows.Forms.Label NowPlaying;
         private System.Windows.Forms.Button SelectRomFIlename;
         private System.Windows.Forms.TextBox RomFilename;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button SelectMusicPlayer;
+        private System.Windows.Forms.TextBox MusicPlayer;
     }
 }
 

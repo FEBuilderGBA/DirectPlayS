@@ -37,8 +37,12 @@ namespace DirectPlayS
                     return null;
                 }
 
-                string args = "";
-                if (arg2 != "")
+                string args;
+                if (arg2 == "")
+                {
+                    args = U.escape_shell_args(tempfilename);
+                }
+                else
                 {
                     args = arg2 + " " + U.escape_shell_args(tempfilename);
                 }

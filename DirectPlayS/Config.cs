@@ -20,7 +20,7 @@ namespace DirectPlayS
             {
                 sb.Append(pair.Key);
                 sb.Append("\t");
-                sb.Append(pair.Value);
+                sb.AppendLine(pair.Value);
             }
 
             try

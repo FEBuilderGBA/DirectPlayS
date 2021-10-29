@@ -1558,6 +1558,61 @@ namespace DirectPlayS
                 }
             };
         }
+        public static bool SelectedIndexSafety(ListBox list, decimal selectID, bool selectFocus = false)
+        {
+            return SelectedIndexSafety(list, (int)selectID, selectFocus);
+        }
+        public static bool SelectedIndexSafety(ListBox list, uint selectID, bool selectFocus = false)
+        {
+            return SelectedIndexSafety(list, (int)selectID, selectFocus);
+        }
+        public static bool SelectedIndexSafety(ListBox list, int selectID, bool selectFocus = false)
+        {
+            if (selectID < 0)
+            {
+                selectID = 0;
+            }
+
+            if (selectID < list.Items.Count)
+            {
+                list.SelectedIndex = selectID;
+                if (selectFocus)
+                {
+                    list.Focus();
+                }
+                return true;
+            }
+            return false;
+        }
+        public static bool SelectedIndexSafety(ComboBox list, uint selectID, bool selectFocus = false)
+        {
+            return SelectedIndexSafety(list, (int)selectID, selectFocus);
+        }
+        public static bool SelectedIndexSafety(ComboBox list, int selectID, bool selectFocus = false)
+        {
+            if (selectID < 0)
+            {
+                selectID = 0;
+            }
+
+            if (list.Items.Count < 0)
+            {//件数が0件
+                Debug.Assert(false);
+                list.SelectedIndex = -1;
+                return false;
+            }
+
+            if (list.Items.Count > selectID)
+            {
+                list.SelectedIndex = selectID;
+                if (selectFocus)
+                {
+                    list.Focus();
+                }
+                return true;
+            }
+            return false;
+        }
     }
 }
 
