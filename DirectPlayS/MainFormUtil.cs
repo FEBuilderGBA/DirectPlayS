@@ -33,7 +33,7 @@ namespace DirectPlayS
                 }
                 catch (Exception e)
                 {
-                    R.ShowStopError(R._("Can not write File\r\n{0}"), e.ToString());
+                    R.ShowStopError("Can not write File\r\n{0}", e.ToString());
                     return null;
                 }
 
@@ -54,7 +54,7 @@ namespace DirectPlayS
                 }
                 catch (Exception e)
                 {
-                    R.ShowStopError(R._("can not execute process\r\n{0} {1}\r\n{2}"), run_name, args, e.ToString());
+                    R.ShowStopError("can not execute process\r\n{0} {1}\r\n{2}", run_name, args, e.ToString());
                     return null;
                 }
                 return p;

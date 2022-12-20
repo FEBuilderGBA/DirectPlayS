@@ -203,6 +203,7 @@ namespace DirectPlayS
             equ["gtp1"] = 0x01;
             equ["gtp2"] = 0x02;
             equ["gtp3"] = 0x03;
+            equ["mod_vib"] = 0x00;
 
             for (uint i = WAIT_START; i <= WAIT_END; i++)
             {
