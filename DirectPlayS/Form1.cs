@@ -444,7 +444,8 @@ namespace DirectPlayS
 
             try
             {
-                MainFormUtil.ProgramRunAs(editorEXE, filename);
+                string s_filename = U.escape_shell_args(filename);
+                MainFormUtil.ProgramRunAs(editorEXE, s_filename);
             }
             catch (Exception e)
             {
